@@ -1,0 +1,4 @@
+antlr4-python3-runtime==4.11
+strawberry-graphql[fastapi]
+sympy
+uvicorn[standard]
