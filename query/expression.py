@@ -3,10 +3,16 @@ import sympy
 import sympy.parsing.latex
 import typing
 
+
+def parse_latex(expr: str):
+    parsed = sympy.parsing.latex.parse_latex(expr)
+    return parsed.subs(sympy.Symbol("e"), sympy.E)
+
+
 Math = strawberry.scalar(
     typing.NewType("MathExpression", sympy.Basic),
     serialize=sympy.latex,
-    parse_value=sympy.parsing.latex.parse_latex,
+    parse_value=parse_latex,
 )
 
 x = typing.cast(Math, sympy.Symbol("x"))
