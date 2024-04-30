@@ -31,6 +31,10 @@ class Expression:
         return Expression(expr=as_math(sympy.diff(self.expr, var, n)))
 
     @strawberry.field
+    def expanded(self) -> "Expression":
+        return Expression(expr=as_math(sympy.expand(self.expr)))
+
+    @strawberry.field
     def factorised(self) -> "Expression":
         return Expression(expr=as_math(sympy.factor(self.expr)))
 
