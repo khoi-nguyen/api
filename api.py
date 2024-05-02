@@ -22,8 +22,6 @@ graphql_app = strawberry.fastapi.GraphQLRouter(schema)
 app = fastapi.FastAPI()
 origins = [
     "https://nguyen.me.uk",
-    "http://localhost:3000",
-    "http://localhost",
 ]
 
 app.add_middleware(
