@@ -23,6 +23,8 @@ app = fastapi.FastAPI()
 origins = [
     "http://localhost:3000",
     "http://localhost",
+    "https://nguyen.me.uk",
+    "https://ngy.ecam.be",
 ]
 
 app.add_middleware(
