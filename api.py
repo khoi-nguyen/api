@@ -24,7 +24,6 @@ origins = [
     "https://nguyen.me.uk",
     "http://localhost:3000",
     "http://localhost",
-    "https://ngy.ecam.be",
 ]
 
 app.add_middleware(
