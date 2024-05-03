@@ -6,7 +6,11 @@ import typing
 
 def parse_latex(expr: str):
     parsed = sympy.parsing.latex.parse_latex(expr)
-    return parsed.subs(sympy.Symbol("e"), sympy.E) if parsed else None
+    subs = {
+        sympy.Symbol("e"): sympy.E,
+        sympy.Symbol("pi"): sympy.pi,
+    }
+    return parsed.subs(subs) if parsed else None
 
 
 Math = strawberry.scalar(
