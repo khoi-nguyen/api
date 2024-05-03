@@ -29,3 +29,28 @@ def test_standard_form(expr, expected):
     result = api.schema.execute_sync(query, {"expr": expr})
     assert result.data is not None
     assert result.data["expression"] == {"isStandardForm": expected}
+
+
+@pytest.mark.parametrize(
+    "expr,expected",
+    [
+        ("(x + 2)(x - 3)", True),
+        ("(x + 2)^2", True),
+        ("2x + 4", False),
+        ("(2x + 4)(x + 1)", False),
+        ("2(x + 2)(x + 1)", False),
+        ("x^2 + 1", True),
+        ("2x + 1", True),
+    ],
+)
+def test_is_factorised(expr, expected):
+    query = """
+      query TestIsFactorised($expr: MathExpression!) {
+        expression(expr: $expr) {
+          isFactorised
+        }
+      }
+    """
+    result = api.schema.execute_sync(query, {"expr": expr})
+    assert result.data is not None
+    assert result.data["expression"] == {"isFactorised": expected}
