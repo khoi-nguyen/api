@@ -70,7 +70,10 @@ class Expression:
 
     @strawberry.field
     def is_factorised(self) -> bool:
-        for term in self.expr.args:
+        expr = self.expr
+        if expr.func != sympy.Mul:
+            expr = sympy.Mul(1, expr, evaluate=False)
+        for term in expr.args:
             if sympy.factor(term).func == sympy.Mul:
                 return False
         return True
