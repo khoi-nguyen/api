@@ -60,7 +60,7 @@ class Expression:
         if self.expr.func != sympy.Mul or len(self.expr.args) != 2:
             return False
         mantissa, base = self.expr.args[0], self.expr.args[1]
-        if sympy.N(mantissa) < 1:
+        if sympy.N(mantissa) < 1 or sympy.N(mantissa) >= 10:
             return False
         if base.func != sympy.Pow or base.args[0] != 10:
             return False
