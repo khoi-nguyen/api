@@ -40,6 +40,7 @@ def test_standard_form(expr, expected):
         ("(2x + 4)(x + 1)", False),
         ("2(x + 2)(x + 1)", False),
         ("x^2 + 1", True),
+        ("z^2 + 1", False),
         ("2x + 1", True),
     ],
 )

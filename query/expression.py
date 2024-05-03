@@ -45,11 +45,19 @@ class Expression:
 
     @strawberry.field
     def factorised(self) -> "Expression":
-        return Expression(expr=as_math(sympy.factor(self.expr)))
+        factored = sympy.factor(self.expr, gaussian=self.is_complex())
+        return Expression(expr=as_math(factored))
 
     @strawberry.field
     def integral(self, var: Math = x) -> "Expression":
         return Expression(expr=as_math(sympy.integrate(self.expr, var)))
+
+    @strawberry.field
+    def is_complex(self) -> bool:
+        symbols = self.expr.atoms(sympy.Symbol, sympy.I)
+        if sympy.Symbol("z") in symbols or sympy.I in symbols:
+            return True
+        return False
 
     @strawberry.field
     def is_equal(self, expr: Math) -> bool:
@@ -74,6 +82,6 @@ class Expression:
         if expr.func != sympy.Mul:
             expr = sympy.Mul(1, expr, evaluate=False)
         for term in expr.args:
-            if sympy.factor(term).func == sympy.Mul:
+            if sympy.factor(term, gaussian=self.is_complex()).func == sympy.Mul:
                 return False
         return True
