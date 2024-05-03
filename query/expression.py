@@ -39,6 +39,10 @@ class Expression:
         return Expression(expr=as_math(sympy.expand(self.expr)))
 
     @strawberry.field
+    def evalf(self, accuracy: int = 15) -> "Expression":
+        return Expression(expr=sympy.N(self.expr, accuracy))
+
+    @strawberry.field
     def factorised(self) -> "Expression":
         return Expression(expr=as_math(sympy.factor(self.expr)))
 
