@@ -8,6 +8,7 @@ def parse_latex(expr: str):
     parsed = sympy.parsing.latex.parse_latex(expr)
     subs = {
         sympy.Symbol("e"): sympy.E,
+        sympy.Symbol("i"): sympy.I,
         sympy.Symbol("pi"): sympy.pi,
     }
     return parsed.subs(subs) if parsed else None
