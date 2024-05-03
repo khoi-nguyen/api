@@ -56,6 +56,19 @@ class Expression:
         return sympy.simplify(sympy.simplify(self.expr) - sympy.simplify(expr)) == 0
 
     @strawberry.field
+    def is_standard_form(self) -> bool:
+        if self.expr.func != sympy.Mul or len(self.expr.args) != 2:
+            return False
+        mantissa, base = self.expr.args[0], self.expr.args[1]
+        if sympy.N(mantissa) < 1:
+            return False
+        if base.func != sympy.Pow or base.args[0] != 10:
+            return False
+        if sympy.N(base.args[1]) % 1 != 0:
+            return False
+        return True
+
+    @strawberry.field
     def is_factorised(self) -> bool:
         for term in self.expr.args:
             if sympy.factor(term).func == sympy.Mul:
