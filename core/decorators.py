@@ -19,3 +19,16 @@ def field(func):
 
         return strawberry.field(modified)
     return strawberry.field(func)
+
+
+def custom_type(cls):
+    for attr in dir(cls):
+        value = getattr(cls, attr)
+        if callable(value) and not attr.startswith("_"):
+            setattr(cls, attr, field(value))
+
+    for key, value in cls.__annotations__.items():
+        if value in [sympy.Symbol, sympy.Basic]:
+            cls.__annotations__[key] = Math
+
+    return strawberry.type(cls)
