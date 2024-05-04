@@ -2,7 +2,8 @@ import strawberry
 import sympy
 import sympy.parsing.latex
 import typing
-from core.math import as_math, Math
+from core.math import Math
+from core.decorators import field
 
 x = typing.cast(Math, sympy.Symbol("x"))
 
@@ -11,39 +12,38 @@ x = typing.cast(Math, sympy.Symbol("x"))
 class Expression:
     expr: Math
 
-    @strawberry.field
-    def derivative(self, var: Math = x, n: int = 1) -> "Expression":
-        return Expression(expr=as_math(sympy.diff(self.expr, var, n)))
+    @field
+    def derivative(self, var: Math = x, n: int = 1) -> sympy.Basic:
+        return sympy.diff(self.expr, var, n)
 
-    @strawberry.field
-    def expanded(self) -> "Expression":
-        return Expression(expr=as_math(sympy.expand(self.expr)))
+    @field
+    def expanded(self) -> sympy.Basic:
+        return sympy.expand(self.expr)
 
-    @strawberry.field
-    def evalf(self, accuracy: int = 15) -> "Expression":
-        return Expression(expr=sympy.N(self.expr, accuracy))
+    @field
+    def evalf(self, accuracy: int = 15) -> sympy.Basic:
+        return sympy.N(self.expr, accuracy)
 
-    @strawberry.field
-    def factorised(self) -> "Expression":
-        factored = sympy.factor(self.expr, gaussian=self.is_complex())
-        return Expression(expr=as_math(factored))
+    @field
+    def factorised(self) -> sympy.Basic:
+        return sympy.factor(self.expr, gaussian=self.is_complex())
 
-    @strawberry.field
-    def integral(self, var: Math = x) -> "Expression":
-        return Expression(expr=as_math(sympy.integrate(self.expr, var)))
+    @field
+    def integral(self, var: Math = x) -> sympy.Basic:
+        return sympy.integrate(self.expr, var)
 
-    @strawberry.field
+    @field
     def is_complex(self) -> bool:
         symbols = self.expr.atoms(sympy.Symbol, sympy.I)
         if sympy.Symbol("z") in symbols or sympy.I in symbols:
             return True
         return False
 
-    @strawberry.field
+    @field
     def is_equal(self, expr: Math) -> bool:
         return sympy.simplify(sympy.simplify(self.expr) - sympy.simplify(expr)) == 0
 
-    @strawberry.field
+    @field
     def is_standard_form(self) -> bool:
         if self.expr.func != sympy.Mul or len(self.expr.args) != 2:
             return False
@@ -56,7 +56,7 @@ class Expression:
             return False
         return True
 
-    @strawberry.field
+    @field
     def is_factorised(self) -> bool:
         expr = self.expr
         if expr.func != sympy.Mul:
