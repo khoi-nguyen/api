@@ -1,8 +1,10 @@
 import sympy
+import core.decorators
 
 x = sympy.Symbol("x")
 
 
+@core.decorators.custom_type
 class Expression:
     expr: sympy.Basic
 
