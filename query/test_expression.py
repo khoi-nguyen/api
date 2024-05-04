@@ -55,3 +55,26 @@ def test_is_factorised(expr, expected):
     result = api.schema.execute_sync(query, {"expr": expr})
     assert result.data is not None
     assert result.data["expression"] == {"isFactorised": expected}
+
+
+@pytest.mark.parametrize(
+    "expr,expected",
+    [
+        ("x^2  - 5x + 6", False),
+        ("x^2 - 1", False),
+        ("z", True),
+        ("x^2 + i", True),
+        ("i", True),
+    ],
+)
+def test_is_complex(expr, expected):
+    query = """
+      query TestIsComplex($expr: MathExpression!) {
+        expression(expr: $expr) {
+          isComplex
+        }
+      }
+    """
+    result = api.schema.execute_sync(query, {"expr": expr})
+    assert result.data is not None
+    assert result.data["expression"] == {"isComplex": expected}
