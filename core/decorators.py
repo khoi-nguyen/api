@@ -13,7 +13,10 @@ def field(func):
 
         @functools.wraps(func)
         def modified(self, **kwargs):
-            return type(self)(expr=func(self, **kwargs))
+            result = func(self, **kwargs)
+            if type(self).__name__ == "Expression":
+                return type(self)(expr=result)
+            return result
 
         modified.__annotations__["return"] = "Expression"
 
