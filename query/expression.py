@@ -1,11 +1,9 @@
 import strawberry
 import sympy
-import sympy.parsing.latex
-import typing
 from core.math import Math
 from core.decorators import field
 
-x = typing.cast(Math, sympy.Symbol("x"))
+x = sympy.Symbol("x")
 
 
 @strawberry.type
@@ -13,7 +11,7 @@ class Expression:
     expr: Math
 
     @field
-    def derivative(self, var: Math = x, n: int = 1) -> sympy.Basic:
+    def derivative(self, var: sympy.Symbol = x, n: int = 1) -> sympy.Basic:
         return sympy.diff(self.expr, var, n)
 
     @field
@@ -29,7 +27,7 @@ class Expression:
         return sympy.factor(self.expr, gaussian=self.is_complex())
 
     @field
-    def integral(self, var: Math = x) -> sympy.Basic:
+    def integral(self, var: sympy.Symbol = x) -> sympy.Basic:
         return sympy.integrate(self.expr, var)
 
     @field
@@ -40,7 +38,7 @@ class Expression:
         return False
 
     @field
-    def is_equal(self, expr: Math) -> bool:
+    def is_equal(self, expr: sympy.Basic) -> bool:
         return sympy.simplify(sympy.simplify(self.expr) - sympy.simplify(expr)) == 0
 
     @field
