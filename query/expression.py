@@ -9,7 +9,7 @@ x = sympy.Symbol("x")
 class Expression:
     expr: sympy.Basic
 
-    def derivative(self, var: sympy.Symbol = x, n: int = 1) -> sympy.Basic:
+    def diff(self, var: sympy.Symbol = x, n: int = 1) -> sympy.Basic:
         return sympy.diff(self.expr, var, n)
 
     def expand(self) -> sympy.Basic:
