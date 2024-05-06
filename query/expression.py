@@ -1,5 +1,6 @@
-import sympy
 import dataclasses
+import sympy
+import typing
 
 x = sympy.Symbol("x")
 
@@ -52,3 +53,6 @@ class Expression:
             if sympy.factor(term, gaussian=self.is_complex()).func == sympy.Mul:
                 return False
         return True
+
+    def solve(self, var: sympy.Symbol = x) -> typing.List[sympy.Basic]:
+        return sympy.solve(self.expr, var)

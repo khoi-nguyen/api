@@ -1,6 +1,7 @@
 import strawberry
 import sympy
 import functools
+import typing
 from core.math import Math
 
 
@@ -19,6 +20,18 @@ def field(func):
             return result
 
         modified.__annotations__["return"] = "Expression"
+
+        return strawberry.field(modified)
+    if func.__annotations__["return"] == typing.List[sympy.Basic]:
+
+        @functools.wraps(func)
+        def modified(self, **kwargs):
+            result = func(self, **kwargs)
+            if type(self).__name__ == "Expression":
+                return map(lambda e: type(self)(expr=e), result)
+            return result
+
+        modified.__annotations__["return"] = typing.List["Expression"]
 
         return strawberry.field(modified)
     return strawberry.field(func)
