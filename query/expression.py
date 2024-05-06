@@ -33,7 +33,7 @@ class Expression:
     def is_equal(self, expr: sympy.Basic) -> bool:
         return sympy.simplify(sympy.simplify(self.expr) - sympy.simplify(expr)) == 0
 
-    def is_standard_form(self) -> bool:
+    def is_scientific_notation(self) -> bool:
         if self.expr.func != sympy.Mul or len(self.expr.args) != 2:
             return False
         mantissa, base = self.expr.args[0], self.expr.args[1]
