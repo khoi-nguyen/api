@@ -1,8 +1,10 @@
 import sympy
+import dataclasses
 
 x = sympy.Symbol("x")
 
 
+@dataclasses.dataclass
 class Expression:
     expr: sympy.Basic
 

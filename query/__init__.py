@@ -1,4 +1,5 @@
 import strawberry
+import typing
 import query.expression
 import query.generate
 from core.decorators import custom_type
@@ -10,7 +11,7 @@ Expression = custom_type(query.expression.Expression)
 @strawberry.type
 class Query:
     @strawberry.field
-    def expression(self, expr: Math) -> "Expression":
+    def expression(self, expr: Math) -> typing.Literal["Expression"]:
         return Expression(expr=expr)
 
     @strawberry.field
