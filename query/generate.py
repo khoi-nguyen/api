@@ -10,7 +10,7 @@ x = sympy.symbols("x")
 @strawberry.type
 class Generate:
     @strawberry.field
-    def factorisation(
+    def factorization(
         self,
         a: typing.List[int] = [1],
         x1: typing.List[int] = [1, 2, 3],

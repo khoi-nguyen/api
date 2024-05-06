@@ -45,7 +45,7 @@ class Expression:
             return False
         return True
 
-    def is_factorised(self) -> bool:
+    def is_factored(self) -> bool:
         expr = self.expr
         if expr.func != sympy.Mul:
             expr = sympy.Mul(1, expr, evaluate=False)
