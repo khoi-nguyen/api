@@ -12,16 +12,16 @@ class Expression:
     def derivative(self, var: sympy.Symbol = x, n: int = 1) -> sympy.Basic:
         return sympy.diff(self.expr, var, n)
 
-    def expanded(self) -> sympy.Basic:
+    def expand(self) -> sympy.Basic:
         return sympy.expand(self.expr)
 
     def evalf(self, accuracy: int = 15) -> sympy.Basic:
         return sympy.N(self.expr, accuracy)
 
-    def factorised(self) -> sympy.Basic:
+    def factor(self) -> sympy.Basic:
         return sympy.factor(self.expr, gaussian=self.is_complex())
 
-    def integral(self, var: sympy.Symbol = x) -> sympy.Basic:
+    def integrate(self, var: sympy.Symbol = x) -> sympy.Basic:
         return sympy.integrate(self.expr, var)
 
     def is_complex(self) -> bool:
