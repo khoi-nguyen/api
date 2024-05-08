@@ -2,7 +2,7 @@ import dataclasses
 import sympy
 import typing
 
-x = sympy.Symbol("x")
+x, z = sympy.symbols("x z")
 
 
 @dataclasses.dataclass
@@ -26,7 +26,7 @@ class Expression:
 
     def is_complex(self) -> bool:
         symbols = self.expr.atoms(sympy.Symbol, sympy.I)
-        if sympy.Symbol("z") in symbols or sympy.I in symbols:
+        if z in symbols or sympy.I in symbols:
             return True
         return False
 
