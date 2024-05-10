@@ -18,17 +18,17 @@ import pytest
         ("10^4", False),
     ],
 )
-def test_standard_form(expr, expected):
+def test_scientific_notation(expr, expected):
     query = """
-      query TestStandardForm($expr: MathExpression!) {
+      query TestScientificNotation($expr: MathExpression!) {
         expression(expr: $expr) {
-          isStandardForm
+          isScientificNotation
         }
       }
     """
     result = api.schema.execute_sync(query, {"expr": expr})
     assert result.data is not None
-    assert result.data["expression"] == {"isStandardForm": expected}
+    assert result.data["expression"] == {"isScientificNotation": expected}
 
 
 @pytest.mark.parametrize(
@@ -44,17 +44,17 @@ def test_standard_form(expr, expected):
         ("2x + 1", True),
     ],
 )
-def test_is_factorised(expr, expected):
+def test_is_factored(expr, expected):
     query = """
-      query TestIsFactorised($expr: MathExpression!) {
+      query TestIsFactored($expr: MathExpression!) {
         expression(expr: $expr) {
-          isFactorised
+          isFactored
         }
       }
     """
     result = api.schema.execute_sync(query, {"expr": expr})
     assert result.data is not None
-    assert result.data["expression"] == {"isFactorised": expected}
+    assert result.data["expression"] == {"isFactored": expected}
 
 
 @pytest.mark.parametrize(
