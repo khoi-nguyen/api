@@ -21,7 +21,14 @@ class Expression:
     def factor(self) -> sympy.Basic:
         return sympy.factor(self.expr, gaussian=self.is_complex())
 
-    def integrate(self, var: sympy.Symbol = x) -> sympy.Basic:
+    def integrate(
+        self,
+        var: sympy.Symbol = x,
+        a: typing.Optional[sympy.Basic] = None,
+        b: typing.Optional[sympy.Basic] = None,
+    ) -> sympy.Basic:
+        if a is not None and b is not None:
+            return sympy.integrate(self.expr, (var, a, b))
         return sympy.integrate(self.expr, var)
 
     def is_complex(self) -> bool:
