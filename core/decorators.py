@@ -4,11 +4,17 @@ import functools
 import typing
 from core.math import Math
 
+subs = {
+    sympy.Symbol: Math,
+    sympy.Basic: Math,
+    typing.Optional[sympy.Basic]: typing.Optional[Math],
+}
+
 
 def field(func):
     for key, value in func.__annotations__.items():
-        if value in [sympy.Symbol, sympy.Basic] and key != "return":
-            func.__annotations__[key] = Math
+        if value in subs and key != "return":
+            func.__annotations__[key] = subs[value]
 
     if func.__annotations__["return"] == sympy.Basic:
 
