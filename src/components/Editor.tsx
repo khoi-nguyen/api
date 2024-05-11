@@ -12,6 +12,9 @@ export default function Editor(props: {
     const instance = monaco.editor.create(container, {
       value: props.initialValue,
       language: "markdown",
+      minimap: {
+        enabled: false,
+      },
     });
 
     instance.onDidChangeModelContent(() => {
