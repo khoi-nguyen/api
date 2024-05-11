@@ -1,20 +1,12 @@
-import type { Component } from "solid-js";
+import { createSignal, type Component } from "solid-js";
+import Editor from "./components/Editor";
 
 const App: Component = () => {
+  const [code, setCode] = createSignal("# Hello");
   return (
-    <div>
-      <header>
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          href="https://github.com/solidjs/solid"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn Solid
-        </a>
-      </header>
+    <div class="columns-2">
+      <Editor initialValue={code()} onChange={setCode} />
+      <pre>{code()}</pre>
     </div>
   );
 };
