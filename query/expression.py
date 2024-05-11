@@ -33,9 +33,7 @@ class Expression:
 
     def is_complex(self) -> bool:
         symbols = self.expr.atoms(sympy.Symbol, sympy.I)
-        if z in symbols or sympy.I in symbols:
-            return True
-        return False
+        return z in symbols or sympy.I in symbols
 
     def is_equal(self, expr: sympy.Basic) -> bool:
         return sympy.simplify(sympy.simplify(self.expr) - sympy.simplify(expr)) == 0
