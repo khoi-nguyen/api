@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "micromark": "^4.0.0",
+    "micromark-extension-math": "^3.0.0",
     "monaco-editor": "^0.48.0",
     "solid-js": "^1.8.11"
   }
