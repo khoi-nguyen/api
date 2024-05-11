@@ -3,7 +3,7 @@ import { micromark } from "micromark";
 
 const Markdown: Component<{ value?: string }> = (props) => {
   const html = () => micromark(props.value || "");
-  return <div innerHTML={html()} />;
+  return <div innerHTML={html()} class="prose" />;
 };
 
 export default Markdown;
