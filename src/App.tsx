@@ -1,26 +1,27 @@
 import { createSignal, type Component } from "solid-js";
-import Editor from "./components/Editor";
-import Markdown from "./components/Markdown";
+import Document from "./components/Document";
 
-const value: string = `# Hello
-
-Here is a math formula:
-
-$$
-\\int_a^b f'(x)
-$$
-
-::factorise
-`;
+const document = {
+  component: "Page",
+  children: [
+    {
+      component: "Markdown",
+      props: {
+        value: "# Hello $x^2$ hello",
+      },
+    },
+    {
+      component: "Markdown",
+      props: {
+        value: "Test **strong**",
+      },
+    },
+  ],
+};
 
 const App: Component = () => {
   const [code, setCode] = createSignal(value);
-  return (
-    <div class="columns-2">
-      <Editor initialValue={code()} onChange={setCode} />
-      <Markdown value={code()} />
-    </div>
-  );
+  return <Document {...document} />;
 };
 
 export default App;
