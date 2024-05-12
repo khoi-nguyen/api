@@ -7,16 +7,16 @@ const components = {
   Page: lazy(() => import("./Page")),
 };
 
-const Document: Component<NodeType> = (props) => {
+const Node: Component<NodeType> = (props) => {
   return (
     <Dynamic component={components[props.component]} {...props.props}>
       <Show when={props.children}>
         {(children) => (
-          <For each={children()}>{(child) => <Document {...child} />}</For>
+          <For each={children()}>{(child) => <Node {...child} />}</For>
         )}
       </Show>
     </Dynamic>
   );
 };
 
-export default Document;
+export default Node;

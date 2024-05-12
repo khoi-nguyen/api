@@ -1,5 +1,5 @@
 import { createSignal, type Component } from "solid-js";
-import Document from "./components/Document";
+import Document from "./components/Node";
 import { Node } from "./schema";
 
 const document = Node.parse({
