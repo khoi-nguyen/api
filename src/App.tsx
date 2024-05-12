@@ -1,7 +1,8 @@
 import { createSignal, type Component } from "solid-js";
 import Document from "./components/Document";
+import { Node } from "./schema";
 
-const document = {
+const document = Node.parse({
   component: "Page",
   children: [
     {
@@ -17,10 +18,9 @@ const document = {
       },
     },
   ],
-};
+});
 
 const App: Component = () => {
-  const [code, setCode] = createSignal(value);
   return <Document {...document} />;
 };
 
