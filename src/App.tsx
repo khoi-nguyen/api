@@ -1,8 +1,8 @@
-import { createSignal, type Component } from "solid-js";
+import { type Component } from "solid-js";
 import Document from "./components/Node";
-import { Node } from "./schema";
+import { NodeType } from "./schema";
 
-const document = Node.parse({
+const document: NodeType = {
   component: "Page",
   children: [
     {
@@ -18,7 +18,7 @@ const document = Node.parse({
       },
     },
   ],
-});
+};
 
 const App: Component = () => {
   return <Document {...document} />;
