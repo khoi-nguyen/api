@@ -11,11 +11,12 @@ const Markdown: Component<{
 }> = (props) => {
   const [focused, setFocused] = createSignal<null | number>(null);
   const paragraphs = () => props.value.split("\n\n");
-  const convert = (value: string) =>
-    micromark(value || "", {
+  const convert = (value: string) => {
+    return micromark(value || "", {
       extensions: [math()],
       htmlExtensions: [mathHtml()],
     });
+  };
 
   function handleEdit(event: FocusEvent) {
     const newParagraphs = paragraphs().map((paragraph, i) => {
@@ -49,6 +50,14 @@ const Markdown: Component<{
               innerHTML={paragraph}
               contenteditable
               onFocusOut={handleEdit}
+              onKeyDown={(event) => {
+                if (
+                  (event.shiftKey || event.ctrlKey) &&
+                  event.key === "Enter"
+                ) {
+                  event.currentTarget.blur();
+                }
+              }}
             />
           </Show>
         )}
