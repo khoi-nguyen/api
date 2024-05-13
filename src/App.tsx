@@ -21,7 +21,7 @@ const App: Component = () => {
       },
     ],
   });
-  return <Document {...document} />;
+  return <Document {...document} setter={setDocument} />;
 };
 
 export default App;

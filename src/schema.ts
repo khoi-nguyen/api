@@ -5,7 +5,6 @@ export const Markdown = z.object({
   props: z.object({
     value: z.string(),
   }),
-  children: z.undefined().optional(),
 });
 
 export const Page = z.object({

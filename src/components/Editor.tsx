@@ -5,12 +5,12 @@ export default function Editor(props: {
   /** Callback called every time the user changes the content */
   onChange?: (newCode: string) => void;
   /** Initial value to put inside the text editor */
-  initialValue?: string;
+  value?: string;
 }) {
   let container: HTMLDivElement;
   onMount(() => {
     const instance = monaco.editor.create(container, {
-      value: props.initialValue,
+      value: props.value,
       language: "markdown",
       minimap: {
         enabled: false,
@@ -27,5 +27,5 @@ export default function Editor(props: {
 
   createEffect(() => {});
 
-  return <div ref={container!} class="h-screen" />;
+  return <div ref={container!} class="h-60" />;
 }
