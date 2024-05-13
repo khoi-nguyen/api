@@ -1,11 +1,12 @@
 import * as monaco from "monaco-editor";
-import { createEffect, onMount } from "solid-js";
+import { onMount } from "solid-js";
 
 export default function Editor(props: {
   /** Callback called every time the user changes the content */
   onChange?: (newCode: string) => void;
   /** Initial value to put inside the text editor */
   value?: string;
+  onShiftEnter?: () => void;
 }) {
   let container: HTMLDivElement;
   onMount(() => {
@@ -39,6 +40,16 @@ export default function Editor(props: {
     instance.onDidContentSizeChange(updateHeight);
 
     monaco.editor.remeasureFonts();
+
+    instance.onKeyDown((event) => {
+      if (
+        event.shiftKey &&
+        event.keyCode === monaco.KeyCode.Enter &&
+        props.onShiftEnter
+      ) {
+        props.onShiftEnter();
+      }
+    });
   });
 
   return <div ref={container!} class="min-h-10" />;

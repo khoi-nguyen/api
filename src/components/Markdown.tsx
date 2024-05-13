@@ -18,7 +18,12 @@ const Markdown: Component<{
     });
   return (
     <div onClick={() => setEdit(true)}>
-      <Show when={edit()} fallback={<div innerHTML={html()} class="prose" />}>
+      <Show
+        when={edit()}
+        fallback={
+          <div innerHTML={html()} onClick={() => setEdit(true)} class="prose" />
+        }
+      >
         <Editor
           value={props.value}
           onChange={(newValue) => {
@@ -26,8 +31,8 @@ const Markdown: Component<{
               props.setter("props", "value", newValue);
             }
           }}
+          onShiftEnter={() => setEdit(false)}
         />
-        <div innerHTML={html()} class="prose" />
       </Show>
     </div>
   );
