@@ -24,12 +24,7 @@ const App: Component = () => {
       },
     ],
   });
-  return (
-    <>
-      <Document {...document} setter={setDocument} />
-      <pre>{JSON.stringify(document, null, 2)}</pre>
-    </>
-  );
+  return <Document {...document} setter={setDocument} />;
 };
 
 export default App;
