@@ -6,6 +6,9 @@ import { NodeType } from "./schema";
 const App: Component = () => {
   const [document, setDocument] = createStore<NodeType>({
     component: "Page",
+    props: {
+      title: "Test",
+    },
     children: [
       {
         component: "Markdown",

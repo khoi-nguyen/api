@@ -7,10 +7,12 @@ export const Markdown = z.object({
   }),
 });
 
-export const Page = z.object({
+export const PageSchema = z.object({
   component: z.literal("Page"),
   children: z.array(Markdown).optional(),
-  props: z.object({}).optional(),
+  props: z.object({
+    title: z.string(),
+  }),
 });
 
 export const Node = Page.or(Markdown);
