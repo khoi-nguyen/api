@@ -13,13 +13,7 @@ const App: Component = () => {
       {
         component: "Markdown",
         props: {
-          value: "# Hello $x^2$ hello",
-        },
-      },
-      {
-        component: "Markdown",
-        props: {
-          value: "Test **strong**",
+          value: "# Hello $x^2$ hello\n\nThis is a second **paragraph**",
         },
       },
       {
