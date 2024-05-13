@@ -21,6 +21,7 @@
     "vite-plugin-solid": "^2.8.2"
   },
   "dependencies": {
+    "computer-modern": "^0.1.2-subsetting3",
     "micromark": "^4.0.0",
     "micromark-extension-math": "^3.0.0",
     "monaco-editor": "^0.48.0",

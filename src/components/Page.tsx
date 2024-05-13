@@ -9,7 +9,7 @@ const Page: Component<
   }
 > = (props) => {
   return (
-    <main class="m-4 h-[297mm] w-[210mm] overflow-hidden rounded-md bg-white p-8 shadow-lg">
+    <main class="m-4 h-[297mm] w-[210mm] overflow-hidden rounded-md bg-white p-8 shadow-lg print:m-0 print:h-screen print:w-screen print:rounded-none print:shadow-none">
       <h1
         class="text-4xl"
         contenteditable
