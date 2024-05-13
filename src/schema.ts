@@ -7,6 +7,13 @@ export const Markdown = z.object({
   }),
 });
 
+export const FormulaSchema = z.object({
+  component: z.literal("Formula"),
+  props: z.object({
+    value: z.string(),
+  }),
+});
+
 export const PageSchema = z.object({
   component: z.literal("Page"),
   children: z.array(Markdown).optional(),
@@ -15,6 +22,6 @@ export const PageSchema = z.object({
   }),
 });
 
-export const Node = Page.or(Markdown);
+export const Node = PageSchema.or(Markdown).or(FormulaSchema);
 
 export type NodeType = z.infer<typeof Node>;
