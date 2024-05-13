@@ -1,4 +1,4 @@
-import { type Component, lazy, For, Show } from "solid-js";
+import { lazy, For, Show } from "solid-js";
 import { Dynamic } from "solid-js/web";
 import { type NodeType } from "../schema";
 import { type SetStoreFunction } from "solid-js/store";
