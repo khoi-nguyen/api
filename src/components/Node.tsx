@@ -1,4 +1,4 @@
-import { lazy, For, Show } from "solid-js";
+import { lazy, For, Show, JSXElement } from "solid-js";
 import { Dynamic } from "solid-js/web";
 import { type NodeType } from "../schema";
 import { type SetStoreFunction } from "solid-js/store";
@@ -7,6 +7,7 @@ import {
   faSquareRootVariable,
 } from "@fortawesome/free-solid-svg-icons";
 import Fa from "./Fa";
+import type { IconDefinition } from "@fortawesome/fontawesome-common-types";
 
 const components = {
   Formula: lazy(() => import("./Formula")),
@@ -23,6 +24,15 @@ export default function Node(props: NodeProps) {
   const addElement = (child: NodeType) => {
     props.setter("children", [...props.children, child]);
   };
+
+  const Button = (props: { onClick: () => void; icon: IconDefinition }) => {
+    return (
+      <button class="btn btn-ghost btn-xs" onClick={props.onClick}>
+        <Fa icon={props.icon} />
+      </button>
+    );
+  };
+
   return (
     <>
       <Dynamic
@@ -44,22 +54,20 @@ export default function Node(props: NodeProps) {
             </For>
           )}
         </Show>
-        <button
-          class="btn btn-ghost btn-xs"
-          onClick={() =>
-            addElement({ component: "Markdown", props: { value: "&nbsp;" } })
-          }
-        >
-          <Fa icon={faFont} />
-        </button>
-        <button
-          class="btn btn-ghost btn-xs"
-          onClick={() =>
-            addElement({ component: "Formula", props: { value: "" } })
-          }
-        >
-          <Fa icon={faSquareRootVariable} />
-        </button>
+        <div>
+          <Button
+            icon={faFont}
+            onClick={() =>
+              addElement({ component: "Markdown", props: { value: "&nbsp;" } })
+            }
+          />
+          <Button
+            icon={faSquareRootVariable}
+            onClick={() =>
+              addElement({ component: "Formula", props: { value: "" } })
+            }
+          />
+        </div>
       </Dynamic>
     </>
   );
