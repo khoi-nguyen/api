@@ -6,7 +6,7 @@ export default function Editor(props: {
   onChange?: (newCode: string) => void;
   /** Initial value to put inside the text editor */
   value?: string;
-  onShiftEnter?: () => void;
+  onKeyDown: (event: monaco.IKeyboardEvent) => void;
 }) {
   let container: HTMLDivElement;
   onMount(() => {
@@ -38,16 +38,13 @@ export default function Editor(props: {
       }
     };
     instance.onDidContentSizeChange(updateHeight);
+    instance.focus();
 
     monaco.editor.remeasureFonts();
 
     instance.onKeyDown((event) => {
-      if (
-        event.shiftKey &&
-        event.keyCode === monaco.KeyCode.Enter &&
-        props.onShiftEnter
-      ) {
-        props.onShiftEnter();
+      if (props.onKeyDown) {
+        props.onKeyDown(event);
       }
     });
   });
