@@ -15,6 +15,7 @@ export default function Editor(props: {
       minimap: {
         enabled: false,
       },
+      scrollBeyondLastLine: false,
     });
 
     instance.onDidChangeModelContent(() => {
@@ -22,10 +23,23 @@ export default function Editor(props: {
         props.onChange(instance.getValue());
       }
     });
+
+    let ignoreEvent = false;
+    const updateHeight = () => {
+      const height = instance.getContentHeight();
+      const width = container.clientWidth;
+      container.style.height = `${height}px`;
+      try {
+        ignoreEvent = true;
+        instance.layout({ width, height });
+      } finally {
+        ignoreEvent = false;
+      }
+    };
+    instance.onDidContentSizeChange(updateHeight);
+
     monaco.editor.remeasureFonts();
   });
 
-  createEffect(() => {});
-
-  return <div ref={container!} class="h-60" />;
+  return <div ref={container!} class="min-h-10" />;
 }
