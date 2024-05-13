@@ -12,6 +12,7 @@
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.13",
     "autoprefixer": "^10.4.19",
+    "daisyui": "^4.11.1",
     "postcss": "^8.4.38",
     "solid-devtools": "^0.29.2",
     "tailwind": "^4.0.0",
