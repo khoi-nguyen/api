@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "computer-modern": "^0.1.2-subsetting3",
+    "mathlive": "^0.98.6",
     "micromark": "^4.0.0",
     "micromark-extension-math": "^3.0.0",
     "monaco-editor": "^0.48.0",

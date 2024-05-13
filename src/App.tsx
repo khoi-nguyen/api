@@ -22,6 +22,12 @@ const App: Component = () => {
           value: "Test **strong**",
         },
       },
+      {
+        component: "Formula",
+        props: {
+          value: "\\int_a^b f'(x)\\, dx",
+        },
+      },
     ],
   });
   return <Document {...document} setter={setDocument} />;

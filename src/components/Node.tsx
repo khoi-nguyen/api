@@ -4,6 +4,7 @@ import { type NodeType } from "../schema";
 import { type SetStoreFunction } from "solid-js/store";
 
 const components = {
+  Formula: lazy(() => import("./Formula")),
   Markdown: lazy(() => import("./Markdown")),
   Page: lazy(() => import("./Page")),
 } as const;
