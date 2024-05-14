@@ -1,9 +1,11 @@
-import { type Component, For, Show, createSignal } from "solid-js";
+import { type Component, Show, createSignal } from "solid-js";
 import { micromark } from "micromark";
 import { math, mathHtml } from "micromark-extension-math";
+import Editor from "./Editor";
 
 import "katex/dist/katex.min.css";
 import { SetStoreFunction } from "solid-js/store";
+import { fa3 } from "@fortawesome/free-solid-svg-icons";
 
 const Markdown: Component<{
   value: string;
@@ -17,12 +19,6 @@ const Markdown: Component<{
     });
   };
 
-  let textarea: HTMLPreElement;
-  const focus = () => {
-    setFocused(true);
-    textarea.focus();
-  };
-
   return (
     <Show
       when={focused()}
@@ -30,22 +26,29 @@ const Markdown: Component<{
         <div
           class="prose"
           innerHTML={html()}
-          onClick={focus}
-          onFocus={focus}
+          onClick={() => setFocused(true)}
+          onFocus={() => setFocused(true)}
           tabindex={0}
         />
       }
     >
-      <pre
-        ref={textarea!}
-        innerHTML={props.value}
-        contenteditable
-        onFocusOut={(event) => {
-          props.setter("props", "value", event.currentTarget.innerText);
+      <Editor
+        value={props.value}
+        onChange={(newValue) => {
+          props.setter("props", "value", newValue);
         }}
         onKeyDown={(event) => {
-          if ((event.shiftKey || event.ctrlKey) && event.key === "Enter") {
-            event.currentTarget.blur();
+          const keys = { Enter: 3, Esc: 2, Tab: 9 };
+          if (
+            (event.shiftKey || event.ctrlKey) &&
+            event.keyCode === keys.Enter
+          ) {
+            setFocused(false);
+          }
+          console.log(event.keyCode);
+          if ([keys.Tab, keys.Esc].includes(event.keyCode)) {
+            setFocused(false);
+            event.preventDefault();
           }
         }}
       />
