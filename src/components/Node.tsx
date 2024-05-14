@@ -5,6 +5,7 @@ import { type SetStoreFunction } from "solid-js/store";
 import {
   faFont,
   faSquareRootVariable,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import Fa from "./Fa";
 import type { IconDefinition } from "@fortawesome/fontawesome-common-types";
@@ -23,6 +24,15 @@ type NodeProps = {
 export default function Node(props: NodeProps) {
   const addElement = (child: NodeType) => {
     props.setter("children", [...props.children, child]);
+  };
+
+  const removeElement = (i: number) => {
+    return () => {
+      props.setter(
+        "children",
+        props.children.filter((child, j) => j !== i),
+      );
+    };
   };
 
   const Button = (props: { onClick: () => void; icon: IconDefinition }) => {
@@ -44,12 +54,17 @@ export default function Node(props: NodeProps) {
           {(children) => (
             <For each={children()}>
               {(child, i) => (
-                <Node
-                  {...child}
-                  setter={(...args: Parameters<typeof props.setter>) => {
-                    props.setter("children", i(), ...args);
-                  }}
-                />
+                <>
+                  <Node
+                    {...child}
+                    setter={(...args: Parameters<typeof props.setter>) => {
+                      props.setter("children", i(), ...args);
+                    }}
+                  />
+                  <div>
+                    <Button icon={faTrash} onClick={removeElement(i())} />
+                  </div>
+                </>
               )}
             </For>
           )}
