@@ -9,60 +9,47 @@ const Markdown: Component<{
   value: string;
   setter: SetStoreFunction<{ props: { value?: string } }>;
 }> = (props) => {
-  const [focused, setFocused] = createSignal<null | number>(null);
-  const paragraphs = () => props.value.split("\n\n");
-  const convert = (value: string) => {
-    return micromark(value || "", {
+  const [focused, setFocused] = createSignal(false);
+  const html = () => {
+    return micromark(props.value || "", {
       extensions: [math()],
       htmlExtensions: [mathHtml()],
     });
   };
 
-  function handleEdit(event: FocusEvent) {
-    const newParagraphs = paragraphs().map((paragraph, i) => {
-      if (focused() === i) {
-        return (event.currentTarget as HTMLPreElement).innerText;
-      }
-      return paragraph;
-    });
-    const value = newParagraphs.join("\n\n");
-    props.setter("props", "value", value);
-    setFocused(null);
-  }
+  let textarea: HTMLPreElement;
+  const focus = () => {
+    setFocused(true);
+    textarea.focus();
+  };
 
   return (
-    <>
-      <For each={paragraphs()}>
-        {(paragraph, i) => (
-          <Show
-            when={focused() === i()}
-            fallback={
-              <div
-                class="prose"
-                innerHTML={convert(paragraph)}
-                onClick={() => setFocused(i())}
-                onFocus={() => setFocused(i())}
-                tabindex={0}
-              />
-            }
-          >
-            <pre
-              innerHTML={paragraph}
-              contenteditable
-              onFocusOut={handleEdit}
-              onKeyDown={(event) => {
-                if (
-                  (event.shiftKey || event.ctrlKey) &&
-                  event.key === "Enter"
-                ) {
-                  event.currentTarget.blur();
-                }
-              }}
-            />
-          </Show>
-        )}
-      </For>
-    </>
+    <Show
+      when={focused()}
+      fallback={
+        <div
+          class="prose"
+          innerHTML={html()}
+          onClick={focus}
+          onFocus={focus}
+          tabindex={0}
+        />
+      }
+    >
+      <pre
+        ref={textarea!}
+        innerHTML={props.value}
+        contenteditable
+        onFocusOut={(event) => {
+          props.setter("props", "value", event.currentTarget.innerText);
+        }}
+        onKeyDown={(event) => {
+          if ((event.shiftKey || event.ctrlKey) && event.key === "Enter") {
+            event.currentTarget.blur();
+          }
+        }}
+      />
+    </Show>
   );
 };
 
