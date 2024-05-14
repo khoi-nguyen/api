@@ -17,6 +17,7 @@ export default function Editor(props: {
         enabled: false,
       },
       scrollBeyondLastLine: false,
+      lineNumbers: "off",
     });
 
     instance.onDidChangeModelContent(() => {
