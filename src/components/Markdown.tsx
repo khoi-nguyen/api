@@ -5,7 +5,6 @@ import Editor from "./Editor";
 
 import "katex/dist/katex.min.css";
 import { SetStoreFunction } from "solid-js/store";
-import { fa3 } from "@fortawesome/free-solid-svg-icons";
 
 const Markdown: Component<{
   value: string;

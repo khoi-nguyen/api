@@ -1,6 +1,5 @@
-import { lazy, For, Show, JSXElement } from "solid-js";
+import { lazy, For, Show, type ComponentProps } from "solid-js";
 import { Dynamic } from "solid-js/web";
-import { type NodeType } from "../schema";
 import { type SetStoreFunction } from "solid-js/store";
 import {
   faFont,
@@ -14,24 +13,31 @@ const components = {
   Formula: lazy(() => import("./Formula")),
   Markdown: lazy(() => import("./Markdown")),
   Page: lazy(() => import("./Page")),
-} as const;
+};
 
-type NodeProps = {
-  children?: NodeType[];
-  setter: SetStoreFunction<NodeType>;
-} & NodeType;
+type Component = keyof typeof components;
+interface NodeProps<T extends Component> {
+  component: T;
+  props: Omit<ComponentProps<(typeof components)[T]>, "setter">;
+  children?: Omit<NodeProps<Component>, "setter">[];
+  setter: SetStoreFunction<NodeProps<T>>;
+}
 
-export default function Node(props: NodeProps) {
-  const addElement = (child: NodeType) => {
-    props.setter("children", [...props.children, child]);
+export default function Node<T extends Component>(props: NodeProps<T>) {
+  const addElement = (child: Omit<NodeProps<Component>, "setter">) => {
+    if (props.children) {
+      props.setter("children", [...props.children, child]);
+    }
   };
 
   const removeElement = (i: number) => {
     return () => {
-      props.setter(
-        "children",
-        props.children.filter((child, j) => j !== i),
-      );
+      if (props.children) {
+        props.setter(
+          "children",
+          props.children.filter((_child, j) => j !== i),
+        );
+      }
     };
   };
 
@@ -45,44 +51,51 @@ export default function Node(props: NodeProps) {
 
   return (
     <>
+      {/* @ts-ignore */}
       <Dynamic
         component={components[props.component]}
         {...props.props}
         setter={props.setter}
       >
-        <Show when={props.children}>
-          {(children) => (
-            <For each={children()}>
-              {(child, i) => (
-                <>
-                  <Node
-                    {...child}
-                    setter={(...args: Parameters<typeof props.setter>) => {
-                      props.setter("children", i(), ...args);
-                    }}
-                  />
-                  <div>
-                    <Button icon={faTrash} onClick={removeElement(i())} />
-                  </div>
-                </>
-              )}
-            </For>
-          )}
-        </Show>
-        <div>
-          <Button
-            icon={faFont}
-            onClick={() =>
-              addElement({ component: "Markdown", props: { value: "&nbsp;" } })
-            }
-          />
-          <Button
-            icon={faSquareRootVariable}
-            onClick={() =>
-              addElement({ component: "Formula", props: { value: "" } })
-            }
-          />
-        </div>
+        <>
+          <Show when={props.children}>
+            {(children) => (
+              <For each={children()}>
+                {(child, i) => (
+                  <>
+                    <Node
+                      {...child}
+                      setter={(...args: any) => {
+                        // @ts-ignore
+                        props.setter("children", i(), ...args);
+                      }}
+                    />
+                    <div>
+                      <Button icon={faTrash} onClick={removeElement(i())} />
+                    </div>
+                  </>
+                )}
+              </For>
+            )}
+          </Show>
+          <div>
+            <Button
+              icon={faFont}
+              onClick={() =>
+                addElement({
+                  component: "Markdown",
+                  props: { value: "" },
+                })
+              }
+            />
+            <Button
+              icon={faSquareRootVariable}
+              onClick={() =>
+                addElement({ component: "Formula", props: { value: "" } })
+              }
+            />
+          </div>
+        </>
       </Dynamic>
     </>
   );
