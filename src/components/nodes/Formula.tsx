@@ -1,6 +1,6 @@
 import { type Component } from "solid-js";
 import { SetStoreFunction } from "solid-js/store";
-import MathField from "./MathField";
+import MathField from "../MathField";
 
 const Formula: Component<{
   value: string;
