@@ -24,9 +24,12 @@ interface NodeProps<T extends Component> {
 }
 
 export default function Node<T extends Component>(props: NodeProps<T>) {
-  const addElement = (child: Omit<NodeProps<Component>, "setter">) => {
+  const addElement = (
+    child: Omit<NodeProps<Component>, "setter">,
+    i: number,
+  ) => {
     if (props.children) {
-      props.setter("children", [...props.children, child]);
+      props.setter("children", props.children.toSpliced(i, 0, child));
     }
   };
 
@@ -57,45 +60,47 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
         {...props.props}
         setter={props.setter}
       >
-        <>
-          <Show when={props.children}>
-            {(children) => (
-              <For each={children()}>
-                {(child, i) => (
-                  <>
-                    <Node
-                      {...child}
-                      setter={(...args: any) => {
-                        // @ts-ignore
-                        props.setter("children", i(), ...args);
-                      }}
+        <Show when={props.children}>
+          {(children) => (
+            <For each={children()}>
+              {(child, i) => (
+                <>
+                  <Node
+                    {...child}
+                    setter={(...args: any) => {
+                      // @ts-ignore
+                      props.setter("children", i(), ...args);
+                    }}
+                  />
+                  <div>
+                    <Button icon={faTrash} onClick={removeElement(i())} />
+                    <Button
+                      icon={faFont}
+                      onClick={() =>
+                        addElement(
+                          {
+                            component: "Markdown",
+                            props: { value: "" },
+                          },
+                          i() + 1,
+                        )
+                      }
                     />
-                    <div>
-                      <Button icon={faTrash} onClick={removeElement(i())} />
-                    </div>
-                  </>
-                )}
-              </For>
-            )}
-          </Show>
-          <div>
-            <Button
-              icon={faFont}
-              onClick={() =>
-                addElement({
-                  component: "Markdown",
-                  props: { value: "" },
-                })
-              }
-            />
-            <Button
-              icon={faSquareRootVariable}
-              onClick={() =>
-                addElement({ component: "Formula", props: { value: "" } })
-              }
-            />
-          </div>
-        </>
+                    <Button
+                      icon={faSquareRootVariable}
+                      onClick={() =>
+                        addElement({
+                          component: "Formula",
+                          props: { value: "" },
+                        })
+                      }
+                    />
+                  </div>
+                </>
+              )}
+            </For>
+          )}
+        </Show>
       </Dynamic>
     </>
   );
