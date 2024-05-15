@@ -62,46 +62,42 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
         {...props.props}
         setter={props.setter}
       >
-        <Show when={props.children}>
-          {(children) => (
-            <For each={children()}>
-              {(child, i) => (
-                <>
-                  <Node
-                    {...child}
-                    setter={(...args: any) => {
-                      // @ts-ignore
-                      props.setter("children", i(), ...args);
-                    }}
-                  />
-                  <div>
-                    <Button icon={faTrash} onClick={removeElement(i())} />
-                    <Button
-                      icon={faFont}
-                      onClick={addElement(
-                        {
-                          component: "Markdown",
-                          props: { value: "" },
-                        },
-                        i() + 1,
-                      )}
-                    />
-                    <Button
-                      icon={faSquareRootVariable}
-                      onClick={addElement(
-                        {
-                          component: "Formula",
-                          props: { value: "" },
-                        },
-                        i() + 1,
-                      )}
-                    />
-                  </div>
-                </>
-              )}
-            </For>
+        <For each={props.children}>
+          {(child, i) => (
+            <>
+              <Node
+                {...child}
+                setter={(...args: any) => {
+                  // @ts-ignore
+                  props.setter("children", i(), ...args);
+                }}
+              />
+              <div>
+                <Button icon={faTrash} onClick={removeElement(i())} />
+                <Button
+                  icon={faFont}
+                  onClick={addElement(
+                    {
+                      component: "Markdown",
+                      props: { value: "" },
+                    },
+                    i() + 1,
+                  )}
+                />
+                <Button
+                  icon={faSquareRootVariable}
+                  onClick={addElement(
+                    {
+                      component: "Formula",
+                      props: { value: "" },
+                    },
+                    i() + 1,
+                  )}
+                />
+              </div>
+            </>
           )}
-        </Show>
+        </For>
       </Dynamic>
     </>
   );
