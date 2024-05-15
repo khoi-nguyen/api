@@ -28,9 +28,11 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
     child: Omit<NodeProps<Component>, "setter">,
     i: number,
   ) => {
-    if (props.children) {
-      props.setter("children", props.children.toSpliced(i, 0, child));
-    }
+    return () => {
+      if (props.children) {
+        props.setter("children", props.children.toSpliced(i, 0, child));
+      }
+    };
   };
 
   const removeElement = (i: number) => {
@@ -76,27 +78,23 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
                     <Button icon={faTrash} onClick={removeElement(i())} />
                     <Button
                       icon={faFont}
-                      onClick={() =>
-                        addElement(
-                          {
-                            component: "Markdown",
-                            props: { value: "" },
-                          },
-                          i() + 1,
-                        )
-                      }
+                      onClick={addElement(
+                        {
+                          component: "Markdown",
+                          props: { value: "" },
+                        },
+                        i() + 1,
+                      )}
                     />
                     <Button
                       icon={faSquareRootVariable}
-                      onClick={() =>
-                        addElement(
-                          {
-                            component: "Formula",
-                            props: { value: "" },
-                          },
-                          i() + 1,
-                        )
-                      }
+                      onClick={addElement(
+                        {
+                          component: "Formula",
+                          props: { value: "" },
+                        },
+                        i() + 1,
+                      )}
                     />
                   </div>
                 </>
