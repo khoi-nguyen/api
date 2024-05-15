@@ -89,10 +89,13 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
                     <Button
                       icon={faSquareRootVariable}
                       onClick={() =>
-                        addElement({
-                          component: "Formula",
-                          props: { value: "" },
-                        })
+                        addElement(
+                          {
+                            component: "Formula",
+                            props: { value: "" },
+                          },
+                          i() + 1,
+                        )
                       }
                     />
                   </div>
