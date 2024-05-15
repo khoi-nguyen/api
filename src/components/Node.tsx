@@ -10,9 +10,9 @@ import Fa from "./Fa";
 import type { IconDefinition } from "@fortawesome/fontawesome-common-types";
 
 const components = {
-  Formula: lazy(() => import("./Formula")),
-  Markdown: lazy(() => import("./Markdown")),
-  Page: lazy(() => import("./Page")),
+  Formula: lazy(() => import("./nodes/Formula")),
+  Markdown: lazy(() => import("./nodes/Markdown")),
+  Page: lazy(() => import("./nodes/Page")),
 };
 
 type Component = keyof typeof components;
