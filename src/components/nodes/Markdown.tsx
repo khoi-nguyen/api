@@ -44,7 +44,6 @@ const Markdown: Component<{
           ) {
             setFocused(false);
           }
-          console.log(event.keyCode);
           if ([keys.Tab, keys.Esc].includes(event.keyCode)) {
             setFocused(false);
             event.preventDefault();
