@@ -1,18 +1,14 @@
-import { lazy, For, Show, type ComponentProps } from "solid-js";
-import { Dynamic } from "solid-js/web";
-import { type SetStoreFunction } from "solid-js/store";
 import {
   faFont,
   faSquareRootVariable,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import Fa from "./Fa";
 import type { IconDefinition } from "@fortawesome/fontawesome-common-types";
 
 const components = {
-  Formula: lazy(() => import("./nodes/Formula")),
-  Markdown: lazy(() => import("./nodes/Markdown")),
-  Page: lazy(() => import("./nodes/Page")),
+  Formula,
+  Markdown,
+  Page,
 };
 
 type Component = keyof typeof components;

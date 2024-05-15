@@ -1,10 +1,5 @@
-import { type Component } from "solid-js";
-import { createStore } from "solid-js/store";
-import Document from "./components/Node";
-import { NodeType } from "./schema";
-
 const App: Component = () => {
-  const [document, setDocument] = createStore<NodeType>({
+  const [document, setDocument] = createStore({
     component: "Page",
     props: {
       title: "Test",
@@ -24,7 +19,7 @@ const App: Component = () => {
       },
     ],
   });
-  return <Document {...document} setter={setDocument} />;
+  return <Node {...document} setter={setDocument} />;
 };
 
 export default App;

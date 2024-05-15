@@ -1,4 +1,3 @@
-import { Component, JSXElement } from "solid-js";
 import { PageSchema } from "../../schema";
 import { z } from "zod";
 

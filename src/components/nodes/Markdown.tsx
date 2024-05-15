@@ -1,10 +1,7 @@
-import { type Component, Show, createSignal, createEffect } from "solid-js";
 import { micromark } from "micromark";
 import { math, mathHtml } from "micromark-extension-math";
-import Editor from "../Editor";
 
 import "katex/dist/katex.min.css";
-import { SetStoreFunction } from "solid-js/store";
 
 const Markdown: Component<{
   value: string;

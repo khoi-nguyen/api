@@ -1,5 +1,3 @@
-import { createEffect } from "solid-js";
-
 import type { MathfieldElement } from "mathlive";
 
 interface MathFieldProps {

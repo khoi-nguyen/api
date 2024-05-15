@@ -1,5 +1,4 @@
 import * as monaco from "monaco-editor";
-import { onMount } from "solid-js";
 
 export default function Editor(props: {
   /** Callback called every time the user changes the content */
