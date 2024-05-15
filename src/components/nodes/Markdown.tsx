@@ -1,4 +1,4 @@
-import { type Component, Show, createSignal } from "solid-js";
+import { type Component, Show, createSignal, createEffect } from "solid-js";
 import { micromark } from "micromark";
 import { math, mathHtml } from "micromark-extension-math";
 import Editor from "../Editor";
@@ -10,7 +10,7 @@ const Markdown: Component<{
   value: string;
   setter: SetStoreFunction<{ props: { value?: string } }>;
 }> = (props) => {
-  const [focused, setFocused] = createSignal(false);
+  const [focused, setFocused] = createSignal(props.value === "");
   const html = () => {
     return micromark(props.value || "", {
       extensions: [math()],
