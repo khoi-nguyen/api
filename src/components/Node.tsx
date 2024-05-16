@@ -65,16 +65,8 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
     >
       <For each={props.children}>
         {(child, i) => (
-          <>
-            <Node
-              {...child}
-              setter={(...args: any) => {
-                // @ts-ignore
-                props.setter("children", i(), ...args);
-              }}
-            />
-            <div>
-              <Button icon={faTrash} onClick={removeElement(i())} />
+          <div class="group relative">
+            <div class="hidden group-hover:flex absolute z-10 bg-white right-0 bottom-0">
               <Button
                 icon={faFont}
                 onClick={addElement(
@@ -95,8 +87,16 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
                   i() + 1,
                 )}
               />
+              <Button icon={faTrash} onClick={removeElement(i())} />
             </div>
-          </>
+            <Node
+              {...child}
+              setter={(...args: any) => {
+                // @ts-ignore
+                props.setter("children", i(), ...args);
+              }}
+            />
+          </div>
         )}
       </For>
     </Dynamic>
