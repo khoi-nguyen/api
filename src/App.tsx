@@ -19,7 +19,12 @@ const App: Component = () => {
       },
     ],
   });
-  return <Node {...document} setter={setDocument} />;
+  return (
+    <>
+      <Node {...document} setter={setDocument} />
+      <pre>{JSON.stringify(document, null, 2)}</pre>
+    </>
+  );
 };
 
 export default App;

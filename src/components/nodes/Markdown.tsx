@@ -3,10 +3,7 @@ import { math, mathHtml } from "micromark-extension-math";
 
 import "katex/dist/katex.min.css";
 
-const Markdown: Component<{
-  value: string;
-  setter: SetStoreFunction<{ props: { value?: string } }>;
-}> = (props) => {
+export default function Markdown(props: LeafNode<{ value: string }>) {
   const [focused, setFocused] = createSignal(props.value === "");
   const html = () => {
     return micromark(props.value || "", {
@@ -49,6 +46,4 @@ const Markdown: Component<{
       />
     </Show>
   );
-};
-
-export default Markdown;
+}

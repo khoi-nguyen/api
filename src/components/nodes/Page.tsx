@@ -1,12 +1,6 @@
-import { PageSchema } from "../../schema";
-import { z } from "zod";
+import { ParentNode } from "../Node";
 
-const Page: Component<
-  z.infer<typeof PageSchema>["props"] & {
-    children?: JSXElement;
-    setter?: (...args: any[]) => any;
-  }
-> = (props) => {
+export default function Page(props: ParentNode<{ title: string }>) {
   return (
     <main class="m-4 h-[297mm] w-[210mm] overflow-hidden rounded-md bg-white p-8 shadow-lg">
       <h1
@@ -29,6 +23,4 @@ const Page: Component<
       {props.children}
     </main>
   );
-};
-
-export default Page;
+}

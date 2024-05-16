@@ -1,13 +1,8 @@
-const Formula: Component<{
-  value: string;
-  setter: SetStoreFunction<{ props: { value?: string } }>;
-}> = (props) => {
+export default function Formula(props: LeafNode<{ value: string }>) {
   return (
     <MathField
       defaultValue={props.value}
       onInput={(value) => props.setter("props", "value", value)}
     />
   );
-};
-
-export default Formula;
+}

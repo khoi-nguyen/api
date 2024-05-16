@@ -5,6 +5,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import type { IconDefinition } from "@fortawesome/fontawesome-common-types";
 
+export type ParentNode<T extends object> = T & {
+  children: JSX.Element;
+  setter: SetStoreFunction<{ props: T }>;
+};
+
+export type LeafNode<T extends object> = Omit<ParentNode<T>, "children">;
+
 const components = {
   Formula,
   Markdown,
@@ -51,50 +58,47 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
   };
 
   return (
-    <>
-      {/* @ts-ignore */}
-      <Dynamic
-        component={components[props.component]}
-        {...props.props}
-        setter={props.setter}
-      >
-        <For each={props.children}>
-          {(child, i) => (
-            <>
-              <Node
-                {...child}
-                setter={(...args: any) => {
-                  // @ts-ignore
-                  props.setter("children", i(), ...args);
-                }}
+    <Dynamic
+      component={components[props.component]}
+      {...props.props}
+      setter={props.setter}
+    >
+      <For each={props.children}>
+        {(child, i) => (
+          <>
+            <Node
+              {...child}
+              setter={(...args: any) => {
+                // @ts-ignore
+                props.setter("children", i(), ...args);
+              }}
+            />
+            <div>
+              <Button icon={faTrash} onClick={removeElement(i())} />
+              <Button
+                icon={faFont}
+                onClick={addElement(
+                  {
+                    component: "Markdown",
+                    props: { value: "" },
+                  },
+                  i() + 1,
+                )}
               />
-              <div>
-                <Button icon={faTrash} onClick={removeElement(i())} />
-                <Button
-                  icon={faFont}
-                  onClick={addElement(
-                    {
-                      component: "Markdown",
-                      props: { value: "" },
-                    },
-                    i() + 1,
-                  )}
-                />
-                <Button
-                  icon={faSquareRootVariable}
-                  onClick={addElement(
-                    {
-                      component: "Formula",
-                      props: { value: "" },
-                    },
-                    i() + 1,
-                  )}
-                />
-              </div>
-            </>
-          )}
-        </For>
-      </Dynamic>
-    </>
+              <Button
+                icon={faSquareRootVariable}
+                onClick={addElement(
+                  {
+                    component: "Formula",
+                    props: { value: "" },
+                  },
+                  i() + 1,
+                )}
+              />
+            </div>
+          </>
+        )}
+      </For>
+    </Dynamic>
   );
 }
