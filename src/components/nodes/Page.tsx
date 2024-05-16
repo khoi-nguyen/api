@@ -12,9 +12,7 @@ export default function Page(props: ParentNode<{ title: string }>) {
           }
         }}
         onFocusOut={(event) => {
-          if (props.setter) {
-            props.setter("props", "title", event.currentTarget.innerText);
-          }
+          props.setter("props", "title", event.currentTarget.innerText);
           event.preventDefault();
         }}
       >

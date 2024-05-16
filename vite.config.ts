@@ -39,11 +39,6 @@ export default defineConfig({
           imports: ["SetStoreFunction"],
           type: true,
         },
-        {
-          from: "~/components/Node",
-          imports: ["LeafNode", "ParentNode"],
-          type: true,
-        },
       ],
     }),
     /* 

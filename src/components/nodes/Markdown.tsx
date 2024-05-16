@@ -1,5 +1,6 @@
 import { micromark } from "micromark";
 import { math, mathHtml } from "micromark-extension-math";
+import type { LeafNode } from "../Node";
 
 import "katex/dist/katex.min.css";
 
