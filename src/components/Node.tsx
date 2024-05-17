@@ -51,18 +51,6 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
     };
   };
 
-  const Button = (props: {
-    onClick: () => void;
-    icon: IconDefinition;
-    class?: string;
-  }) => {
-    return (
-      <button class={`btn btn-outline ${props.class}`} onClick={props.onClick}>
-        <Fa icon={props.icon} />
-      </button>
-    );
-  };
-
   return (
     <Dynamic
       component={components[props.component]}
@@ -72,28 +60,7 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
       <For each={props.children}>
         {(child, i) => (
           <div class="group relative">
-            <div
-              class="
-                hidden
-                group-hover:flex
-
-                z-10
-                absolute
-                bottom-0
-                left-1/2
-                transform
-                translate-y-full
-                -translate-x-1/2
-
-                py-4
-                border-t
-
-                bg-gradient-to-t
-                from-transparent
-                to-50%
-                to-white
-              "
-            >
+            <Toolbar>
               <Button
                 class="btn-info"
                 icon={faFont}
@@ -131,7 +98,7 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
                 icon={faTrash}
                 onClick={removeElement(i())}
               />
-            </div>
+            </Toolbar>
             <Node
               {...child}
               setter={(...args: any) => {
@@ -143,5 +110,46 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
         )}
       </For>
     </Dynamic>
+  );
+}
+
+function Toolbar(props: { children?: JSXElement }) {
+  return (
+    <div
+      class="
+          hidden
+          group-hover:flex
+
+          z-10
+          absolute
+          bottom-0
+          left-1/2
+          transform
+          translate-y-full
+          -translate-x-1/2
+
+          py-4
+          border-t
+
+          bg-gradient-to-t
+          from-transparent
+          to-50%
+          to-white
+        "
+    >
+      {props.children}
+    </div>
+  );
+}
+
+function Button(props: {
+  onClick: () => void;
+  icon: IconDefinition;
+  class?: string;
+}) {
+  return (
+    <button class={`btn btn-outline ${props.class}`} onClick={props.onClick}>
+      <Fa icon={props.icon} />
+    </button>
   );
 }
