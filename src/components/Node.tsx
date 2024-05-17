@@ -51,89 +51,10 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
     };
   };
 
-  return (
-    <Dynamic
-      component={components[props.component]}
-      {...props.props}
-      setter={props.setter}
-    >
-      <>
-        <For each={props.children}>
-          {(child, i) => (
-            <div class="group relative">
-              <Toolbar>
-                <Button
-                  class="btn-info"
-                  icon={faFont}
-                  onClick={addElement(
-                    {
-                      component: "Markdown",
-                      props: { value: "" },
-                    },
-                    i() + 1,
-                  )}
-                />
-                <Button
-                  icon={faWindowMaximize}
-                  onClick={addElement(
-                    {
-                      component: "Environment",
-                      props: { title: "Hello" },
-                      children: [],
-                    },
-                    i() + 1,
-                  )}
-                />
-                <Button
-                  icon={faSquareRootVariable}
-                  onClick={addElement(
-                    {
-                      component: "Formula",
-                      props: { value: "" },
-                    },
-                    i() + 1,
-                  )}
-                />
-                <Button
-                  class="btn-error"
-                  icon={faTrash}
-                  onClick={removeElement(i())}
-                />
-              </Toolbar>
-              <Node
-                {...child}
-                setter={(...args: any) => {
-                  // @ts-ignore
-                  props.setter("children", i(), ...args);
-                }}
-              />
-            </div>
-          )}
-        </For>
-        <Show
-          when={props.children !== undefined && props.children.length === 0}
-        >
-          <Button
-            class="btn-info"
-            icon={faFont}
-            onClick={addElement(
-              {
-                component: "Markdown",
-                props: { value: "" },
-              },
-              0,
-            )}
-          />
-        </Show>
-      </>
-    </Dynamic>
-  );
-}
-
-function Toolbar(props: { children?: JSXElement }) {
-  return (
-    <div
-      class="
+  function Toolbar(props: { index: number }) {
+    return (
+      <div
+        class="
           hidden
           group-hover:flex
 
@@ -150,9 +71,76 @@ function Toolbar(props: { children?: JSXElement }) {
           border-t
           bg-white
         "
+      >
+        <Button
+          class="btn-info"
+          icon={faFont}
+          onClick={addElement(
+            {
+              component: "Markdown",
+              props: { value: "" },
+            },
+            props.index + 1,
+          )}
+        />
+        <Button
+          icon={faWindowMaximize}
+          onClick={addElement(
+            {
+              component: "Environment",
+              props: { title: "Hello" },
+              children: [],
+            },
+            props.index + 1,
+          )}
+        />
+        <Button
+          icon={faSquareRootVariable}
+          onClick={addElement(
+            {
+              component: "Formula",
+              props: { value: "" },
+            },
+            props.index + 1,
+          )}
+        />
+        <Button
+          class="btn-error"
+          icon={faTrash}
+          onClick={removeElement(props.index)}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <Dynamic
+      component={components[props.component]}
+      {...props.props}
+      setter={props.setter}
     >
-      {props.children}
-    </div>
+      <>
+        <For each={props.children}>
+          {(child, i) => (
+            <div class="group relative">
+              <Toolbar index={i()} />
+              <Node
+                {...child}
+                setter={(...args: any) => {
+                  // @ts-ignore
+                  props.setter("children", i(), ...args);
+                }}
+              />
+            </div>
+          )}
+        </For>
+        <Show
+          when={props.children !== undefined && props.children.length === 0}
+        >
+          <Toolbar index={0} />
+        </Show>
+      </>
+    </Dynamic>
   );
 }
 
