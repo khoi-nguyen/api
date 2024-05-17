@@ -57,58 +57,75 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
       {...props.props}
       setter={props.setter}
     >
-      <For each={props.children}>
-        {(child, i) => (
-          <div class="group relative">
-            <Toolbar>
-              <Button
-                class="btn-info"
-                icon={faFont}
-                onClick={addElement(
-                  {
-                    component: "Markdown",
-                    props: { value: "" },
-                  },
-                  i() + 1,
-                )}
+      <>
+        <For each={props.children}>
+          {(child, i) => (
+            <div class="group relative">
+              <Toolbar>
+                <Button
+                  class="btn-info"
+                  icon={faFont}
+                  onClick={addElement(
+                    {
+                      component: "Markdown",
+                      props: { value: "" },
+                    },
+                    i() + 1,
+                  )}
+                />
+                <Button
+                  icon={faWindowMaximize}
+                  onClick={addElement(
+                    {
+                      component: "Environment",
+                      props: { title: "Hello" },
+                      children: [],
+                    },
+                    i() + 1,
+                  )}
+                />
+                <Button
+                  icon={faSquareRootVariable}
+                  onClick={addElement(
+                    {
+                      component: "Formula",
+                      props: { value: "" },
+                    },
+                    i() + 1,
+                  )}
+                />
+                <Button
+                  class="btn-error"
+                  icon={faTrash}
+                  onClick={removeElement(i())}
+                />
+              </Toolbar>
+              <Node
+                {...child}
+                setter={(...args: any) => {
+                  // @ts-ignore
+                  props.setter("children", i(), ...args);
+                }}
               />
-              <Button
-                icon={faWindowMaximize}
-                onClick={addElement(
-                  {
-                    component: "Environment",
-                    props: { title: "Hello" },
-                    children: [],
-                  },
-                  i() + 1,
-                )}
-              />
-              <Button
-                icon={faSquareRootVariable}
-                onClick={addElement(
-                  {
-                    component: "Formula",
-                    props: { value: "" },
-                  },
-                  i() + 1,
-                )}
-              />
-              <Button
-                class="btn-error"
-                icon={faTrash}
-                onClick={removeElement(i())}
-              />
-            </Toolbar>
-            <Node
-              {...child}
-              setter={(...args: any) => {
-                // @ts-ignore
-                props.setter("children", i(), ...args);
-              }}
-            />
-          </div>
-        )}
-      </For>
+            </div>
+          )}
+        </For>
+        <Show
+          when={props.children !== undefined && props.children.length === 0}
+        >
+          <Button
+            class="btn-info"
+            icon={faFont}
+            onClick={addElement(
+              {
+                component: "Markdown",
+                props: { value: "" },
+              },
+              0,
+            )}
+          />
+        </Show>
+      </>
     </Dynamic>
   );
 }
@@ -128,6 +145,7 @@ function Toolbar(props: { children?: JSXElement }) {
           translate-y-full
           -translate-x-1/2
 
+          px-10
           py-4
           border-t
 
