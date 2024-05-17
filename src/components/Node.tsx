@@ -23,7 +23,7 @@ const components = {
 type Component = keyof typeof components;
 interface NodeProps<T extends Component> {
   component: T;
-  props: Omit<ComponentProps<(typeof components)[T]>, "setter">;
+  props: Omit<ComponentProps<(typeof components)[T]>, "setter" | "children">;
   children?: Omit<NodeProps<Component>, "setter">[];
   setter: SetStoreFunction<NodeProps<T>>;
 }
