@@ -51,7 +51,7 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
 
   const Button = (props: { onClick: () => void; icon: IconDefinition }) => {
     return (
-      <button class="btn btn-ghost btn-xs" onClick={props.onClick}>
+      <button class="btn btn-ghost" onClick={props.onClick}>
         <Fa icon={props.icon} />
       </button>
     );
@@ -66,7 +66,7 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
       <For each={props.children}>
         {(child, i) => (
           <div class="group relative">
-            <div class="hidden group-hover:flex absolute z-10 bg-white right-0 bottom-0">
+            <div class="hidden group-hover:flex absolute z-10 bg-gradient-to-r from-transparent to-50% to-white right-0 top-1/2 transform -translate-y-1/2">
               <Button
                 icon={faFont}
                 onClick={addElement(
