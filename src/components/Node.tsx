@@ -77,10 +77,10 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
 
                 absolute
                 right-0
-                top-1/2
+                bottom-0
                 z-10
                 transform
-                -translate-y-1/2
+                translate-y-full
 
                 bg-gradient-to-r
                 from-transparent
