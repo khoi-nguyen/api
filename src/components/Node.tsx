@@ -2,6 +2,7 @@ import {
   faFont,
   faSquareRootVariable,
   faTrash,
+  faWindowMaximize,
 } from "@fortawesome/free-solid-svg-icons";
 import type { IconDefinition } from "@fortawesome/fontawesome-common-types";
 
@@ -13,6 +14,7 @@ export type ParentNode<T extends object> = T & {
 export type LeafNode<T extends object> = Omit<ParentNode<T>, "children">;
 
 const components = {
+  Environment,
   Formula,
   Markdown,
   Page,
@@ -99,6 +101,17 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
                   {
                     component: "Markdown",
                     props: { value: "" },
+                  },
+                  i() + 1,
+                )}
+              />
+              <Button
+                icon={faWindowMaximize}
+                onClick={addElement(
+                  {
+                    component: "Environment",
+                    props: { title: "Hello" },
+                    children: [],
                   },
                   i() + 1,
                 )}
