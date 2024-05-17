@@ -148,11 +148,7 @@ function Toolbar(props: { children?: JSXElement }) {
           px-10
           py-4
           border-t
-
-          bg-gradient-to-t
-          from-transparent
-          to-50%
-          to-white
+          bg-white
         "
     >
       {props.children}
