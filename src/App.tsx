@@ -19,6 +19,18 @@ const App: Component = () => {
       },
     ],
   });
+
+  onMount(() => {
+    const document = localStorage.getItem("document");
+    if (document) {
+      setDocument(JSON.parse(document));
+    }
+  });
+
+  createEffect(() => {
+    localStorage.setItem("document", JSON.stringify(document));
+  });
+
   return (
     <>
       <Node {...document} setter={setDocument} />
