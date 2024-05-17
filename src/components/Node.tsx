@@ -75,14 +75,18 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
                 hidden
                 group-hover:flex
 
-                absolute
-                right-0
-                bottom-0
                 z-10
+                absolute
+                bottom-0
+                left-1/2
                 transform
                 translate-y-full
+                -translate-x-1/2
 
-                bg-gradient-to-r
+                py-4
+                border-t
+
+                bg-gradient-to-t
                 from-transparent
                 to-50%
                 to-white
