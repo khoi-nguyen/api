@@ -49,9 +49,13 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
     };
   };
 
-  const Button = (props: { onClick: () => void; icon: IconDefinition }) => {
+  const Button = (props: {
+    onClick: () => void;
+    icon: IconDefinition;
+    class?: string;
+  }) => {
     return (
-      <button class="btn btn-ghost" onClick={props.onClick}>
+      <button class={`btn btn-outline ${props.class}`} onClick={props.onClick}>
         <Fa icon={props.icon} />
       </button>
     );
@@ -66,8 +70,26 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
       <For each={props.children}>
         {(child, i) => (
           <div class="group relative">
-            <div class="hidden group-hover:flex absolute z-10 bg-gradient-to-r from-transparent to-50% to-white right-0 top-1/2 transform -translate-y-1/2">
+            <div
+              class="
+                hidden
+                group-hover:flex
+
+                absolute
+                right-0
+                top-1/2
+                z-10
+                transform
+                -translate-y-1/2
+
+                bg-gradient-to-r
+                from-transparent
+                to-50%
+                to-white
+              "
+            >
               <Button
+                class="btn-info"
                 icon={faFont}
                 onClick={addElement(
                   {
@@ -87,7 +109,11 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
                   i() + 1,
                 )}
               />
-              <Button icon={faTrash} onClick={removeElement(i())} />
+              <Button
+                class="btn-error"
+                icon={faTrash}
+                onClick={removeElement(i())}
+              />
             </div>
             <Node
               {...child}
