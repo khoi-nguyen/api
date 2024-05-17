@@ -18,7 +18,7 @@ export default function Markdown(props: LeafNode<{ value: string }>) {
       when={focused()}
       fallback={
         <div
-          class="prose"
+          class="prose max-w-none"
           innerHTML={html()}
           onClick={() => setFocused(true)}
           onFocus={() => setFocused(true)}
