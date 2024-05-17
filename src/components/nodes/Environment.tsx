@@ -2,9 +2,9 @@ import { ParentNode } from "../Node";
 
 export default function Environment(props: ParentNode<{ title: string }>) {
   return (
-    <div class="border rounded-t-md m-4">
+    <div class="rounded-xl m-4 shadow p-4">
       <h3
-        class="bg-blue-950 text-white py-1 px-3 font-sans"
+        class="font-semibold font-sans"
         contenteditable
         onKeyDown={(event) => {
           if (event.key === "Enter") {
