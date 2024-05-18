@@ -29,6 +29,8 @@ interface NodeProps<T extends Component> {
 }
 
 export default function Node<T extends Component>(props: NodeProps<T>) {
+  const [focused, setFocused] = createSignal<null | number>(null);
+
   const addElement = (
     child: Omit<NodeProps<Component>, "setter">,
     i: number,
@@ -122,8 +124,17 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
       <>
         <For each={props.children}>
           {(child, i) => (
-            <div class="group relative">
-              <Toolbar index={i()} />
+            <div
+              class="group relative"
+              onMouseOver={(event) => {
+                setFocused(i());
+                event.stopPropagation();
+              }}
+              onMouseOut={() => setFocused(null)}
+            >
+              <Show when={focused() == i()}>
+                <Toolbar index={i()} />
+              </Show>
               <Node
                 {...child}
                 setter={(...args: any) => {
