@@ -20,6 +20,12 @@ export default function Editable(props: EditableProps) {
       <input
         class="w-full"
         value={props.value}
+        onKeyDown={(event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            (event.target as HTMLInputElement).blur();
+          }
+        }}
         onBlur={(event) => {
           if (props.onChange) {
             props.onChange(event.target.value);
