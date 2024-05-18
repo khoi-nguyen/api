@@ -1,17 +1,11 @@
-import { micromark } from "micromark";
-import { math, mathHtml } from "micromark-extension-math";
 import type { LeafNode } from "../Node";
+import { md2html } from "../../lib/markdown";
 
 import "katex/dist/katex.min.css";
 
 export default function Markdown(props: LeafNode<{ value: string }>) {
   const [focused, setFocused] = createSignal(props.value === "");
-  const html = () => {
-    return micromark(props.value || "", {
-      extensions: [math()],
-      htmlExtensions: [mathHtml()],
-    });
-  };
+  const html = () => md2html(props.value || "");
 
   return (
     <Show
