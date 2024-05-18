@@ -48,7 +48,7 @@ export default function Editor(props: {
         props.onKeyDown(event);
       }
     });
-    instance.onDidBlurEditorWidget((event) => {
+    instance.onDidBlurEditorWidget(() => {
       if (props.onBlur) {
         props.onBlur();
       }
