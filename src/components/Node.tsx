@@ -57,9 +57,6 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
     return (
       <div
         class="
-          hidden
-          group-hover:flex
-
           z-10
           absolute
           bottom-0
