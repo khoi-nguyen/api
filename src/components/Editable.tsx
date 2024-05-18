@@ -1,28 +1,32 @@
+import { md2html } from "../lib/markdown";
+
 interface EditableProps {
-  children: JSXElement;
-  onChange: (newValue: string) => void;
+  value: string;
+  onChange?: (newValue: string) => void;
 }
 
 export default function Editable(props: EditableProps) {
+  const [focused, setFocused] = createSignal(false);
   return (
-    <span
-      contenteditable
-      class="
-        [&[contenteditable]]:focus:border-none
-        [&[contenteditable]]:focus:outline-none
-        [&[contenteditable]]:active:border-none
-        [&[contenteditable]]:active:outline-none
-      "
-      onKeyDown={(event) => {
-        if (event.key === "Enter") {
-          event.currentTarget.blur();
-        }
-      }}
-      onFocusOut={(event) => {
-        props.onChange(event.currentTarget.innerText);
-      }}
+    <Show
+      when={focused()}
+      fallback={
+        <div
+          onClick={() => setFocused(true)}
+          innerHTML={md2html(props.value)}
+        />
+      }
     >
-      {props.children}
-    </span>
+      <input
+        class="w-full"
+        value={props.value}
+        onBlur={(event) => {
+          if (props.onChange) {
+            props.onChange(event.target.value);
+          }
+          setFocused(false);
+        }}
+      />
+    </Show>
   );
 }
