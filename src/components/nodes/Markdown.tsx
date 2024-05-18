@@ -31,6 +31,9 @@ export default function Markdown(props: LeafNode<{ value: string }>) {
         onChange={(newValue) => {
           props.setter("props", "value", newValue);
         }}
+        onBlur={() => {
+          setFocused(false);
+        }}
         onKeyDown={(event) => {
           const keys = { Enter: 3, Esc: 2, Tab: 9 };
           if (
@@ -39,7 +42,7 @@ export default function Markdown(props: LeafNode<{ value: string }>) {
           ) {
             setFocused(false);
           }
-          if ([keys.Tab, keys.Esc].includes(event.keyCode)) {
+          if ([keys.Tab].includes(event.keyCode)) {
             setFocused(false);
             event.preventDefault();
           }

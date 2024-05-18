@@ -5,7 +5,8 @@ export default function Editor(props: {
   onChange?: (newCode: string) => void;
   /** Initial value to put inside the text editor */
   value?: string;
-  onKeyDown: (event: monaco.IKeyboardEvent) => void;
+  onBlur?: () => void;
+  onKeyDown?: (event: monaco.IKeyboardEvent) => void;
 }) {
   let container: HTMLDivElement;
   onMount(() => {
@@ -45,6 +46,11 @@ export default function Editor(props: {
     instance.onKeyDown((event) => {
       if (props.onKeyDown) {
         props.onKeyDown(event);
+      }
+    });
+    instance.onDidBlurEditorWidget((event) => {
+      if (props.onBlur) {
+        props.onBlur();
       }
     });
   });
