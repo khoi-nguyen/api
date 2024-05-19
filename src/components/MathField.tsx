@@ -23,24 +23,20 @@ export default function MathField(props: MathFieldProps) {
   createEffect(async () => {
     await setup();
     field.style.width = "100%";
-    if (props.onInput) {
-      field.addEventListener("input", (event: Event) => {
-        props.onInput!(
-          (event.target as MathfieldElement).getValue(
-            "latex-without-placeholders",
-          ),
-        );
-      });
-    }
-    if (props.onChange) {
-      field.addEventListener("change", (event: Event) => {
-        props.onChange!(
-          (event.target as MathfieldElement).getValue(
-            "latex-without-placeholders",
-          ),
-        );
-      });
-    }
+    field.addEventListener("input", (event: Event) => {
+      props.onInput?.(
+        (event.target as MathfieldElement).getValue(
+          "latex-without-placeholders",
+        ),
+      );
+    });
+    field.addEventListener("change", (event: Event) => {
+      props.onChange?.(
+        (event.target as MathfieldElement).getValue(
+          "latex-without-placeholders",
+        ),
+      );
+    });
     container.appendChild(field);
   });
 

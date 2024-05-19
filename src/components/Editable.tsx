@@ -27,9 +27,7 @@ export default function Editable(props: EditableProps) {
           }
         }}
         onBlur={(event) => {
-          if (props.onChange) {
-            props.onChange(event.target.value);
-          }
+          props.onChange?.(event.target.value);
           setFocused(false);
         }}
       />

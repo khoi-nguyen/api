@@ -21,9 +21,7 @@ export default function Editor(props: {
     });
 
     instance.onDidChangeModelContent(() => {
-      if (props.onChange) {
-        props.onChange(instance.getValue());
-      }
+      props.onChange?.(instance.getValue());
     });
 
     let ignoreEvent = false;
@@ -44,14 +42,10 @@ export default function Editor(props: {
     monaco.editor.remeasureFonts();
 
     instance.onKeyDown((event) => {
-      if (props.onKeyDown) {
-        props.onKeyDown(event);
-      }
+      props.onKeyDown?.(event);
     });
     instance.onDidBlurEditorWidget(() => {
-      if (props.onBlur) {
-        props.onBlur();
-      }
+      props.onBlur?.();
     });
   });
 

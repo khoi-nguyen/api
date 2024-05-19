@@ -5,7 +5,7 @@ import "katex/dist/katex.min.css";
 
 export default function Markdown(props: LeafNode<{ value: string }>) {
   const [focused, setFocused] = createSignal(props.value === "");
-  const html = () => md2html(props.value || " ");
+  const html = () => md2html(props.value || "Type your text here");
 
   return (
     <Show
