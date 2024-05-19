@@ -26,10 +26,12 @@ interface NodeProps<T extends Component> {
   props: Omit<ComponentProps<(typeof components)[T]>, "setter" | "children">;
   children?: Omit<NodeProps<Component>, "setter">[];
   setter: SetStoreFunction<NodeProps<T>>;
+  setChildHasFocus?: (value: boolean) => void;
 }
 
 export default function Node<T extends Component>(props: NodeProps<T>) {
   const [focused, setFocused] = createSignal<null | number>(null);
+  const [childHasFocus, setChildHasFocus] = createSignal(false);
 
   const addElement = (
     child: Omit<NodeProps<Component>, "setter">,
@@ -123,13 +125,16 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
           {(child, i) => (
             <div
               class="group relative"
-              onMouseOver={(event) => {
+              onMouseEnter={() => {
+                props.setChildHasFocus?.(true);
                 setFocused(i());
-                event.stopPropagation();
               }}
-              onMouseOut={() => setFocused(null)}
+              onMouseLeave={() => {
+                setFocused(null);
+                props.setChildHasFocus?.(false);
+              }}
             >
-              <Show when={focused() == i()}>
+              <Show when={focused() == i() && !childHasFocus()}>
                 <Toolbar index={i()} />
               </Show>
               <Node
@@ -138,13 +143,12 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
                   // @ts-ignore
                   props.setter("children", i(), ...args);
                 }}
+                setChildHasFocus={setChildHasFocus}
               />
             </div>
           )}
         </For>
-        <Show
-          when={props.children !== undefined && props.children.length === 0}
-        >
+        <Show when={props.children?.length === 0}>
           <Toolbar index={0} />
         </Show>
       </>
