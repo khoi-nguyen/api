@@ -32,10 +32,10 @@ const App: Component = () => {
   });
 
   return (
-    <>
+    <AppContextProvider>
       <Node {...document} setter={setDocument} />
       <pre>{JSON.stringify(document, null, 2)}</pre>
-    </>
+    </AppContextProvider>
   );
 };
 

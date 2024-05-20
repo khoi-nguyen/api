@@ -7,9 +7,10 @@ interface EditableProps {
 
 export default function Editable(props: EditableProps) {
   const [focused, setFocused] = createSignal(false);
+  const context = useAppContext();
   return (
     <Show
-      when={focused()}
+      when={context.edit() && focused()}
       fallback={
         <div
           onClick={() => setFocused(true)}

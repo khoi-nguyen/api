@@ -32,6 +32,7 @@ interface NodeProps<T extends Component> {
 export default function Node<T extends Component>(props: NodeProps<T>) {
   const [focused, setFocused] = createSignal<null | number>(null);
   const [childHasFocus, setChildHasFocus] = createSignal(false);
+  const context = useAppContext();
 
   const addElement = (
     child: Omit<NodeProps<Component>, "setter">,
@@ -134,7 +135,9 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
                 props.setChildHasFocus?.(false);
               }}
             >
-              <Show when={focused() == i() && !childHasFocus()}>
+              <Show
+                when={context.edit() && focused() == i() && !childHasFocus()}
+              >
                 <Toolbar index={i()} />
               </Show>
               <Node
@@ -148,7 +151,7 @@ export default function Node<T extends Component>(props: NodeProps<T>) {
             </div>
           )}
         </For>
-        <Show when={props.children?.length === 0}>
+        <Show when={props.children?.length === 0 && context.edit()}>
           <Toolbar index={0} />
         </Show>
       </>
