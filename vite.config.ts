@@ -6,11 +6,12 @@ import solidPlugin from "vite-plugin-solid";
 export default defineConfig({
   plugins: [
     AutoImport({
-      dirs: ["./src/components", "./src/components/nodes"],
+      dirs: ["./src/components", "./src/components/nodes", "./src/lib"],
       imports: [
         {
           "solid-js": [
             "children",
+            "createContext",
             "createEffect",
             "createMemo",
             "createResource",
@@ -19,6 +20,7 @@ export default defineConfig({
             "on",
             "onCleanup",
             "onMount",
+            "useContext",
             "Dynamic",
             "For",
             "Match",
