@@ -50,8 +50,12 @@ async def read_document(url: str):
         return json.load(file)
 
 
-@app.post("/documents/{url}")
+@app.post("/documents/{url}", status_code=fastapi.status.HTTP_201_CREATED)
 async def write_document(url: str, document: Node):
     path = get_path(url)
     with open(path, "w") as file:
         json.dump(document.model_dump(mode="json"), file, indent=2)
+    return {
+        "url": url,
+        "document": document,
+    }
