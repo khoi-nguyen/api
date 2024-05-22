@@ -1,6 +1,7 @@
 import typing
 import fastapi
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import routing
 import pydantic
 import strawberry
 import strawberry.fastapi
@@ -38,7 +39,7 @@ def get_path(url: str) -> str:
     return path
 
 
-@app.get("/documents/{url}", operation_id="read_document")
+@app.get("/documents/{url}")
 async def read_document(url: str) -> documents.Page:
     path = get_path(url)
     with open(path, "r") as file:
@@ -48,7 +49,6 @@ async def read_document(url: str) -> documents.Page:
 @app.post(
     "/documents/{url}",
     status_code=fastapi.status.HTTP_201_CREATED,
-    operation_id="write_document",
 )
 async def write_document(url: str, document: documents.Page):
     path = get_path(url)
@@ -58,3 +58,8 @@ async def write_document(url: str, document: documents.Page):
         "url": url,
         "document": document,
     }
+
+
+for route in app.routes:
+    if isinstance(route, routing.APIRoute):
+        route.operation_id = route.name
