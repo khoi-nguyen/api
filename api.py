@@ -11,7 +11,7 @@ from app import documents
 
 schema = strawberry.Schema(query=query.Query)
 graphql_app = strawberry.fastapi.GraphQLRouter(schema)
-app = fastapi.FastAPI()
+app = fastapi.FastAPI(separate_input_output_schemas=False)
 origins = [
     "https://nguyen.me.uk",
     "https://ngy.ecam.be",
