@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Literal
+from typing import Literal
 
 
 # Components without children
@@ -32,10 +32,10 @@ class EnvironmentProps(BaseModel):
 class Environment(BaseModel):
     component: Literal["Environment"]
     props: EnvironmentProps
-    children: List[Leaf]
+    children: list[Leaf]
 
 
-Component = Leaf | Environment
+Node = Leaf | Environment
 
 # Roots
 
@@ -47,4 +47,4 @@ class PageProps(BaseModel):
 class Page(BaseModel):
     component: Literal["Page"]
     props: PageProps
-    children: List[Environment | Markdown | Formula]
+    children: list[Node]

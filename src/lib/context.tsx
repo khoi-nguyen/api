@@ -1,11 +1,15 @@
-import { OpenAPI, readDocument, writeDocument } from "../client";
+import { OpenAPI, Page_Output, readDocument, writeDocument } from "../client";
 
 OpenAPI.BASE = "http://localhost:8000";
 
 function makeContext() {
   const [url, setUrl] = createSignal("index");
   const [edit, setEdit] = createSignal(true);
-  const [document, setDocument] = createStore({});
+  const [document, setDocument] = createStore<Page_Output>({
+    component: "Page",
+    props: { title: "" },
+    children: [],
+  });
 
   const load = async () => {
     const document = await readDocument({ url: url() });

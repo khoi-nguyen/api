@@ -38,12 +38,6 @@ def get_path(url: str) -> str:
     return path
 
 
-class Node(pydantic.BaseModel):
-    component: str
-    props: typing.Dict[str, typing.Any]
-    children: typing.Optional[typing.List["Node"]] = None
-
-
 @app.get("/documents/{url}", operation_id="read_document")
 async def read_document(url: str) -> documents.Page:
     path = get_path(url)
