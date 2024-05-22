@@ -43,14 +43,18 @@ class Node(pydantic.BaseModel):
     children: typing.Optional[typing.List["Node"]] = None
 
 
-@app.get("/documents/{url}")
-async def read_document(url: str):
+@app.get("/documents/{url}", operation_id="read_document")
+async def read_document(url: str) -> Node:
     path = get_path(url)
     with open(path, "r") as file:
         return json.load(file)
 
 
-@app.post("/documents/{url}", status_code=fastapi.status.HTTP_201_CREATED)
+@app.post(
+    "/documents/{url}",
+    status_code=fastapi.status.HTTP_201_CREATED,
+    operation_id="write_document",
+)
 async def write_document(url: str, document: Node):
     path = get_path(url)
     with open(path, "w") as file:
