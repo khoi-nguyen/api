@@ -6,10 +6,12 @@
     "start": "vite",
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "openapi": "openapi-ts -i http://localhost:8000/openapi.json -o src/client"
   },
   "license": "MIT",
   "devDependencies": {
+    "@hey-api/openapi-ts": "^0.46.0",
     "@tailwindcss/typography": "^0.5.13",
     "autoprefixer": "^10.4.19",
     "daisyui": "^4.11.1",

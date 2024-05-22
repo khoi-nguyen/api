@@ -1,21 +1,19 @@
+import { OpenAPI, readDocument, writeDocument } from "../client";
+
+OpenAPI.BASE = "http://localhost:8000";
+
 function makeContext() {
   const [url, setUrl] = createSignal("index");
   const [edit, setEdit] = createSignal(true);
   const [document, setDocument] = createStore({});
 
   const load = async () => {
-    const res = await fetch(`http://localhost:8000/documents/${url()}`);
-    setDocument(await res.json());
+    const document = await readDocument({ url: url() });
+    setDocument(document);
   };
 
   const save = () => {
-    fetch(`http://localhost:8000/documents/${url()}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(document),
-    });
+    writeDocument({ url: url(), requestBody: document });
   };
 
   return {
