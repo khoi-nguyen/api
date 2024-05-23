@@ -1,8 +1,6 @@
-import typing
 import fastapi
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import routing
-import pydantic
 import strawberry
 import strawberry.fastapi
 import query
